@@ -49,7 +49,7 @@ class Explosion(pygame.sprite.Sprite):
         self.timeCreated = datetime.now()
         self.image = pygame.image.load("assets/explosions/EXPLOSION1.png")
         self.rect = self.image.get_rect()
-        self.maxRange = 10
+        self.maxRange = 13
         self.range = 0
         self.x = x
         self.y = y
