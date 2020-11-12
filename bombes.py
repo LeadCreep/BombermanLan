@@ -58,7 +58,6 @@ class Explosion(pygame.sprite.Sprite):
         self.Propagation()
 
     def update(self):
-        self.TempsDeVie()
         for explosion in self.ListeDesExplosions:
             explosion.update()
 
@@ -115,16 +114,16 @@ class ExplosionPlusLoin(pygame.sprite.Sprite):
             self.game.explosions.remove(self)
 
     def TempsDeVie(self):
-        if timedelta(seconds=0.5) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=0.2) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[1]
-        if timedelta(seconds=1) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=0.5) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[2]
-        if timedelta(seconds=1.5) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=0.7) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[3]
-        if timedelta(seconds=2) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=1) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[4]
-        if timedelta(seconds=2.5) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=1.2) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[5]
-        if timedelta(seconds=3) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=1.5) <= datetime.now() - self.timeCreated:
             self.game.explosionAppening = False
             self.game.explosions.remove(self)
