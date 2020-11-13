@@ -30,6 +30,7 @@ class Game:
         for explosion in self.explosions:
             if self.player.rect.x == explosion.rect.x and self.player.rect.y == explosion.rect.y:
                 self.deathState = True
+                self.player.image = self.player.imageliste[1]
 
     def check_collision(self, sprite, group):  # Check la collision
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)

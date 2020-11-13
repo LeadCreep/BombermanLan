@@ -124,6 +124,7 @@ class ExplosionPlusLoin(pygame.sprite.Sprite):
             self.image = self.imageliste[4]
         if timedelta(seconds=1.2) <= datetime.now() - self.timeCreated:
             self.image = self.imageliste[5]
-        if timedelta(seconds=1.5) <= datetime.now() - self.timeCreated:
+        if timedelta(seconds=1.21) <= datetime.now() - self.timeCreated:
             self.game.explosionAppening = False
             self.game.explosions.remove(self)
+            self.game.explosions.empty()
