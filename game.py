@@ -18,6 +18,7 @@ class Game:
         self.generate_map()
         self.bombeIsDecounting = False
         self.explosionAppening = False
+        self.deathState = False
 
     def update(self):  # Update méthode
         self.event()
@@ -26,6 +27,9 @@ class Game:
             self.bombe.update()
         if self.explosionAppening == True:
             self.bombe.explosion.update()
+        for explosion in self.explosions:
+            if self.player.rect.x == explosion.rect.x and self.player.rect.y == explosion.rect.y:
+                self.deathState = True
 
     def check_collision(self, sprite, group):  # Check la collision
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
@@ -53,16 +57,18 @@ class Game:
             if event.type == pygame.QUIT:  # QUITER LE JEU
                 self.quit()
             if event.type == pygame.KEYDOWN:  # QUAND LE BOUTTON EST PRESS
-                if event.key == K_UP:
-                    self.player.move(dy=-1)
-                if event.key == K_DOWN:
-                    self.player.move(dy=1)
-                if event.key == K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == K_RIGHT:
-                    self.player.move(dx=1)
-                if event.key == K_SPACE:
-                    if self.bombeIsDecounting == False and self.explosionAppening == False:
-                        self.bombe = Bombe(self, self.player.x, self.player.y)
-                        self.bombeIsDecounting = True
-                        self.bombe.mettreEnPlaceBombe()
+                if not self.deathState:
+                    if event.key == K_UP:
+                        self.player.move(dy=-1)
+                    if event.key == K_DOWN:
+                        self.player.move(dy=1)
+                    if event.key == K_LEFT:
+                        self.player.move(dx=-1)
+                    if event.key == K_RIGHT:
+                        self.player.move(dx=1)
+                    if event.key == K_SPACE:
+                        if self.bombeIsDecounting == False and self.explosionAppening == False:
+                            self.bombe = Bombe(
+                                self, self.player.x, self.player.y)
+                            self.bombeIsDecounting = True
+                            self.bombe.mettreEnPlaceBombe()
