@@ -1,8 +1,8 @@
 import pygame
 import sys
-from pygame.locals import *
 from bombes import Bombe
 from player import Player
+from bots import Bot
 from walls import Wall
 from constantes import *
 from levels import *
@@ -12,6 +12,7 @@ class Game:
     def __init__(self):
         # GENERATION DU JOUEUR
         self.player = Player(self, 9, 5)
+        self.playerBot1 = Bot(self, 10, 5, 0)
         self.walls_groupe = pygame.sprite.Group()
         self.bombes = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
@@ -22,6 +23,7 @@ class Game:
 
     def update(self):  # Update méthode
         self.event()
+        self.playerBot1.update()
         self.player.update()
         if self.bombeIsDecounting == True:
             self.bombe.update()
