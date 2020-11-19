@@ -1,5 +1,6 @@
 import pygame
 import sys
+from pygame.locals import *
 from bombes import Bombe
 from player import Player
 from bots import Bot
@@ -12,11 +13,12 @@ class Game:
     def __init__(self):
         # GENERATION DU JOUEUR
         self.player = Player(self, 9, 5)
-        self.playerBot1 = Bot(self, 10, 5, 0)
         self.walls_groupe = pygame.sprite.Group()
         self.bombes = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
+        self.bots = pygame.sprite.Group()
         self.generate_map()
+        self.playerBot1 = Bot(self, 10, 5, 0)
         self.bombeIsDecounting = False
         self.explosionAppening = False
         self.deathState = False
