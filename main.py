@@ -1,9 +1,11 @@
 import pygame
 import sys
+import socket
 from pygame.locals import *
 from game import Game
 from constantes import *
 from datetime import datetime, timedelta
+from connect import BoiteDeDialogue, ThreadEmission, ThreadReception
 pygame.init()
 
 pygame.display.set_caption("BombermanMVM")
@@ -14,6 +16,28 @@ background = pygame.image.load("assets/background.png")
 debugfps = 0
 
 game = Game()
+
+# Connection au Serveur
+
+
+def connection():
+    Boite = BoiteDeDialogue()
+    Boite.runFenetre()
+    HOST = Boite.AdresseIp
+    connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        connexion.connect((HOST, PORT))
+    except socket.error:
+        print("Connectiopn Non Etablie")
+        sys.exit()
+    print("Connection Etablie !")
+    th_E = ThreadEmission(connexion)
+    th_R = ThreadReception(connexion)
+    th_E.start()
+    th_R.start()
+
+
+connection()
 
 # gameloop
 while 1:

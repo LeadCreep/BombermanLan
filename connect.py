@@ -3,7 +3,6 @@ import sys
 import threading
 from tkinter import *
 from tkinter.messagebox import *
-import pickle
 
 
 class BoiteDeDialogue():
@@ -47,13 +46,6 @@ class BoiteDeDialogue():
         self.Mafenetre.mainloop()
 
 
-Boite = BoiteDeDialogue()
-Boite.runFenetre()
-
-HOST = Boite.AdresseIp
-PORT = 50000
-
-
 class ThreadReception(threading.Thread):
     def __init__(self, conn):
         threading.Thread.__init__(self)
@@ -85,21 +77,6 @@ class ThreadEmission(threading.Thread):
         self.connexion.send(message.encode())
 
 
-connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-try:
-    connexion.connect((HOST, PORT))
-except socket.error:
-    print("Ca marche pas frere.")
-    sys.exit()
-print("Ca marche frere")
-
-th_E = ThreadEmission(connexion)
-th_R = ThreadReception(connexion)
-th_E.start()
-th_R.start()
-
-y = [1, 1, True, 1, 1]
-help(pickle.dump)
-data = pickle.dump(y)
-th_E.envoyer(y)
+#y = [1, 1, True, 1, 1]
+#y = str(y)
+# th_E.envoyer(y)
