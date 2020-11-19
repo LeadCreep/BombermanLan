@@ -23,6 +23,7 @@ while 1:
     game.walls_groupe.draw(screen)
     game.bombes.draw(screen)
     game.explosions.draw(screen)
+    game.bots.draw(screen)
     pygame.display.flip()
     game.update()
     print(datetime.now() - debugfps)

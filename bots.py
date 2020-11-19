@@ -8,6 +8,7 @@ class Bot(pygame.sprite.Sprite):
     def __init__(self, game, x, y, NumeroPlayer):
         super().__init__()
         self.game = game
+        self.game.bots.add(self)
         self.imageliste = [pygame.image.load(
             "assets/players/player1.png"), pygame.image.load("assets/players/deathState.png")]
         self.image = self.imageliste[0]
@@ -18,3 +19,6 @@ class Bot(pygame.sprite.Sprite):
     def place(self, x, y):
         self.rect.x = self.x * TILESISE
         self.rect.y = self.y * TILESISE
+
+    def update(self):
+        self.place(self.x, self.y)
