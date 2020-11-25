@@ -28,7 +28,7 @@ def connection():
     try:
         connexion.connect((HOST, PORT))
     except socket.error:
-        print("Connectiopn Non Etablie")
+        print("Connection Non Etablie")
         sys.exit()
     print("Connection Etablie !")
     th_E = ThreadEmission(connexion)

@@ -59,7 +59,7 @@ class ThreadReception(threading.Thread):
                 break
 
         th_E._Thread__stop()
-        print("Connection perdu frer")
+        print("Connection Rompue")
         self.connexion.close()
 
 
