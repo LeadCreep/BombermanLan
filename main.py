@@ -31,10 +31,14 @@ def connection():
         print("Connection Non Etablie")
         sys.exit()
     print("Connection Etablie !")
+    global th_E
     th_E = ThreadEmission(connexion)
     th_R = ThreadReception(connexion)
+    th_E.name = "Ha bon"
+    th_R.name = "Bah il prend pas ses balles"
     th_E.start()
     th_R.start()
+    th_E.envoyer(Boite.Nom)
 
 
 connection()

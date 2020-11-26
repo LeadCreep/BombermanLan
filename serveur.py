@@ -12,6 +12,7 @@ class ThreadClient(threading.Thread):
     def __init__(self, connection):
         threading.Thread.__init__(self)
         self.connexion = connection
+        self.name = self.connexion.recv(1024)
 
     def run(self):
         nom = self.getName()
@@ -45,6 +46,9 @@ while 1:
     th = ThreadClient(connexion)
     th.start()
     it = th.getName()
+    print(it)
     conn_client[it] = connexion
-    print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
+    print("Client", str(it, 'utf-8', 'ignore'), "connecté, adresse IP",
+          adresse[0], "port", adresse[1])
     connexion.send("Connection effectué !!".encode())
+    # GROS PROBLEME ICCCCCCCI
