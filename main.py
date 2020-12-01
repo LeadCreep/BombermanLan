@@ -38,11 +38,7 @@ def connection():
     th_R.name = "Bah il prend pas ses balles"
     th_E.start()
     th_R.start()
-<<<<<<< HEAD
     th_E.envoyer(str(Boite.nom))
-=======
-    th_E.envoyer(Boite.Nom)
->>>>>>> 40db61b25d746271624ffcfd1690aed5d851bd52
 
 
 connection()

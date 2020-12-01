@@ -12,11 +12,7 @@ class ThreadClient(threading.Thread):
     def __init__(self, connection):
         threading.Thread.__init__(self)
         self.connexion = connection
-<<<<<<< HEAD
         self.setName(self.connexion.recv(1024).decode())
-=======
-        self.name = self.connexion.recv(1024)
->>>>>>> 40db61b25d746271624ffcfd1690aed5d851bd52
 
     def run(self):
         nom = self.getName()
@@ -53,7 +49,6 @@ while 1:
     it = th.getName()
     print(it)
     conn_client[it] = connexion
-    print("Client", str(it, 'utf-8', 'ignore'), "connecté, adresse IP",
-          adresse[0], "port", adresse[1])
+    print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
     connexion.send("Connection effectué !!".encode())
     # GROS PROBLEME ICCCCCCCI
