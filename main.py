@@ -35,6 +35,7 @@ def connection():
     th_R = ThreadReception(connexion)
     th_E.start()
     th_R.start()
+    th_E.envoyer(str(Boite.nom))
 
 
 connection()

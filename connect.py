@@ -10,6 +10,8 @@ class BoiteDeDialogue():
         def GetIP():
             self.AdresseIp = self.IP.get()
             print(str(self.AdresseIp))
+            self.nom = self.Pseudo.get()
+            print(str(self.nom))
             self.Mafenetre.destroy()
 
         # Création de la fenêtre principale (main window)
@@ -21,9 +23,9 @@ class BoiteDeDialogue():
         self.Label1.pack(side=LEFT, padx=5, pady=5)
 
         # Création d'un widget Entry (champ de saisie)
-        self.IP = StringVar()
+        self.Pseudo = StringVar()
         self.Champ = Entry(
-            self.Mafenetre, textvariable=self.IP, bg='bisque', fg='maroon')
+            self.Mafenetre, textvariable=self.Pseudo, bg='bisque', fg='maroon')
         self.Champ.focus_set()
         self.Champ.pack(side=LEFT, padx=5, pady=5)
 
