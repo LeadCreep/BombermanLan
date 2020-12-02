@@ -52,12 +52,13 @@ class ThreadReception(threading.Thread):
     def __init__(self, conn):
         threading.Thread.__init__(self)
         self.connexion = conn
+        self.message_recu = None
 
     def run(self):
         while 1:
-            message_recu = self.connexion.recv(1024)
-            print("*" + message_recu.decode() + "*")
-            if message_recu == '' or message_recu.upper() == "FIN":
+            self.message_recu = self.connexion.recv(1024)
+            #print("*" + self.message_recu.decode() + "*")
+            if self.message_recu == '' or self.message_recu.upper() == "FIN":
                 break
 
         self._Thread__stop()
@@ -76,7 +77,10 @@ class ThreadEmission(threading.Thread):
             self.connexion.send(message_emis.encode())
 
     def envoyer(self, message):
-        self.connexion.send(message.encode())
+        try:
+            self.connexion.send(message.encode())
+        except AttributeError:
+            print("NoneType !")
 
 
 #y = [1, 1, True, 1, 1]

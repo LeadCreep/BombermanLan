@@ -1,10 +1,13 @@
-from datetime import datetime
-import sys
+#from datetime import datetime
 import socket
+import sys
+
 import pygame
-from game import Game
-from constantes import PORT, SCREEN_HEIGHT, SCREEN_WIDTH
+
 from connect import BoiteDeDialogue, ThreadEmission, ThreadReception
+from constantes import PORT, SCREEN_HEIGHT, SCREEN_WIDTH
+from game import Game
+
 pygame.init()
 
 pygame.display.set_caption("BombermanMVM")
@@ -19,32 +22,39 @@ game = Game()
 # Connection au Serveur
 
 
-def connection():
-    Boite = BoiteDeDialogue()
-    Boite.runFenetre()
-    HOST = Boite.AdresseIp
-    connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+Boite = BoiteDeDialogue()
+Boite.runFenetre()
+HOST = Boite.AdresseIp
+connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    connexion.connect((HOST, PORT))
+except socket.error:
+    print("Connection Non Etablie")
+    sys.exit()
+print("Connection Etablie !")
+th_E = ThreadEmission(connexion)
+th_R = ThreadReception(connexion)
+th_E.start()
+th_R.start()
+th_E.envoyer(str(Boite.nom))
+# th_E.envoyer("FIN")
+
+
+def sendPlayerPos():
+    th_E.envoyer(str([game.player.x, game.player.y]))
+
+
+def placeBots():
     try:
-        connexion.connect((HOST, PORT))
-    except socket.error:
-        print("Connection Non Etablie")
-        sys.exit()
-    print("Connection Etablie !")
-    th_E = ThreadEmission(connexion)
-    th_R = ThreadReception(connexion)
-    th_E.name = "Ha bon"
-    th_R.name = "Bah il prend pas ses balles"
-    th_E.start()
-    th_R.start()
-    th_E.envoyer(str(Boite.nom))
-    # th_E.envoyer("FIN")
+        print(th_R.message_recu)
+    except AttributeError:
+        print("NoneType !")
+    #game.playerBot1.x = list(th_R.message_recu.decode())[1]
 
-
-connection()
 
 # gameloop
 while 1:
-    debugfps = datetime.now()
+    #debugfps = datetime.now()
     screen.blit(background, (0, 0))
     screen.blit(game.player.image, game.player.rect)
     game.walls_groupe.draw(screen)
@@ -53,4 +63,7 @@ while 1:
     game.bots.draw(screen)
     pygame.display.flip()
     game.update()
-    print(datetime.now() - debugfps)
+    sendPlayerPos()
+    placeBots()
+    # print(th_R.message_recu)
+    #print(datetime.now() - debugfps)

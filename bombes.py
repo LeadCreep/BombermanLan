@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import pygame
 
-from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TILESISE, TAILLE_DE_MAP
+from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP, TILESISE
 
 
 class Bombe(pygame.sprite.Sprite):
