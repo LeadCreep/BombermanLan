@@ -1,12 +1,15 @@
-import pygame
-from constantes import *
 from datetime import datetime, timedelta
+
+import pygame
+
+from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TILESISE, TAILLE_DE_MAP
 
 
 class Bombe(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         super().__init__()
         self.game = game
+        self.explosion = None
         self.game.bombes.add(self)
         self.imageliste = [pygame.image.load("assets/bombes/bomb1.png"), pygame.image.load("assets/bombes/bomb2.png"), pygame.image.load(
             "assets/bombes/bomb3.png"), pygame.image.load("assets/bombes/bomb4.png"), pygame.image.load("assets/bombes/bomb5.png")]
@@ -22,7 +25,7 @@ class Bombe(pygame.sprite.Sprite):
 
     def update(self):
         self.explode_Bombe()
-        if self.game.explosionAppening == True:
+        if self.game.explosionAppening:
             self.explosion.update()
 
     def explode_Bombe(self):

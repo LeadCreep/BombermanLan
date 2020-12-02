@@ -1,7 +1,5 @@
 import pygame
-import time
-from bombes import Bombe
-from constantes import *
+from constantes import TILESISE
 
 
 class Player(pygame.sprite.Sprite):

@@ -1,12 +1,12 @@
-import socket
-import sys
 import threading
-from tkinter import *
-from tkinter.messagebox import *
+from tkinter import LEFT, RIGHT, TOP, Button, Entry, Label, StringVar, Tk
 
 
 class BoiteDeDialogue():
     def __init__(self):
+        self.nom = None
+        self.AdresseIp = None
+
         def GetIP():
             self.AdresseIp = self.IP.get()
             print(str(self.AdresseIp))
@@ -60,7 +60,7 @@ class ThreadReception(threading.Thread):
             if message_recu == '' or message_recu.upper() == "FIN":
                 break
 
-        th_E._Thread__stop()
+        self._Thread__stop()
         print("Connection Rompue")
         self.connexion.close()
 

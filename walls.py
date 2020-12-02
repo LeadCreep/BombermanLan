@@ -1,5 +1,5 @@
 import pygame
-from constantes import *
+from constantes import TILESISE
 
 
 class Wall(pygame.sprite.Sprite):

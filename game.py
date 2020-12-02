@@ -1,12 +1,14 @@
-import pygame
 import sys
-from pygame.locals import *
+
+import pygame
+from pygame.locals import K_DOWN, K_LEFT, K_RIGHT, K_SPACE, K_UP
+
 from bombes import Bombe
-from player import Player
 from bots import Bot
+from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
+from levels import liste_levels
+from player import Player
 from walls import Wall
-from constantes import *
-from levels import *
 
 
 class Game:
@@ -22,14 +24,15 @@ class Game:
         self.bombeIsDecounting = False
         self.explosionAppening = False
         self.deathState = False
+        self.bombe = None
 
     def update(self):  # Update méthode
         self.event()
         self.playerBot1.update()
         self.player.update()
-        if self.bombeIsDecounting == True:
+        if self.bombeIsDecounting:
             self.bombe.update()
-        if self.explosionAppening == True:
+        if self.explosionAppening:
             self.bombe.explosion.update()
         for explosion in self.explosions:
             if self.player.rect.x == explosion.rect.x and self.player.rect.y == explosion.rect.y:
@@ -42,7 +45,6 @@ class Game:
     def generate_map(self):  # Generer la map
         uLongeurWall = 0
         uHauteurWall = 0
-        TailleDeMap = TAILLE_DE_MAP
         for i in liste_levels[0]:
             if i == 1:
                 wall = Wall(self, OFFSET_WIDTH+uLongeurWall,
@@ -72,7 +74,7 @@ class Game:
                     if event.key == K_RIGHT:
                         self.player.move(dx=1)
                     if event.key == K_SPACE:
-                        if self.bombeIsDecounting == False and self.explosionAppening == False:
+                        if not self.bombeIsDecounting and not self.explosionAppening:
                             self.bombe = Bombe(
                                 self, self.player.x, self.player.y)
                             self.bombeIsDecounting = True

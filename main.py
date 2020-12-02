@@ -1,10 +1,9 @@
-import pygame
+from datetime import datetime
 import sys
 import socket
-from pygame.locals import *
+import pygame
 from game import Game
-from constantes import *
-from datetime import datetime, timedelta
+from constantes import PORT, SCREEN_HEIGHT, SCREEN_WIDTH
 from connect import BoiteDeDialogue, ThreadEmission, ThreadReception
 pygame.init()
 
@@ -31,7 +30,6 @@ def connection():
         print("Connection Non Etablie")
         sys.exit()
     print("Connection Etablie !")
-    global th_E
     th_E = ThreadEmission(connexion)
     th_R = ThreadReception(connexion)
     th_E.name = "Ha bon"
@@ -39,6 +37,7 @@ def connection():
     th_E.start()
     th_R.start()
     th_E.envoyer(str(Boite.nom))
+    # th_E.envoyer("FIN")
 
 
 connection()

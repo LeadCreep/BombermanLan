@@ -1,7 +1,7 @@
 import socket
 import sys
 import threading
-from constantes import *
+from constantes import PORT
 
 hostname = socket.gethostname()
 ServIP = socket.gethostbyname(hostname)
@@ -51,4 +51,3 @@ while 1:
     conn_client[it] = connexion
     print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
     connexion.send("Connection effectué !!".encode())
-    # GROS PROBLEME ICCCCCCCI
