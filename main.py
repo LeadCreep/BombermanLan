@@ -1,4 +1,5 @@
 #from datetime import datetime
+import json
 import socket
 import sys
 
@@ -30,7 +31,7 @@ try:
     connexion.connect((HOST, PORT))
 except socket.error:
     print("Connection Non Etablie")
-    sys.exit()
+    sys.quit()
 print("Connection Etablie !")
 th_E = ThreadEmission(connexion)
 th_R = ThreadReception(connexion)
@@ -41,15 +42,18 @@ th_E.envoyer(str(Boite.nom))
 
 
 def sendPlayerPos():
-    th_E.envoyer(str([game.player.x, game.player.y]))
+    th_E.envoyer(json.dumps([game.player.x, game.player.y]))
 
 
 def placeBots():
     try:
-        print(th_R.message_recu)
+        print(th_R.message)
+        coBot = th_R.message
+        print(type(coBot))
+        game.playerBot1.place(coBot[0], coBot[1])
+
     except AttributeError:
-        print("NoneType !")
-    #game.playerBot1.x = list(th_R.message_recu.decode())[1]
+        print("Probléme !")
 
 
 # gameloop

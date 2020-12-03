@@ -1,3 +1,4 @@
+import json
 import socket
 import sys
 import threading
@@ -21,11 +22,12 @@ class ThreadClient(threading.Thread):
             msgClient = self.connexion.recv(1024)
             if msgClient == '' or msgClient.upper().decode() == "FIN":
                 break
-            message = nom + '>' + msgClient.decode()
-            print(message)
+            message = json.loads(msgClient)
+            print("MsgClient : ", msgClient)
+            print("messgae :", message)
             for iteration in conn_client:
                 if iteration != nom:
-                    conn_client[iteration].send(message.encode())
+                    conn_client[iteration].send(msgClient)
 
         self.connexion.close()
         del conn_client[nom]
