@@ -48,7 +48,7 @@ try:
     mySocket.bind((ServIP, PORT))
 except socket.error:
     print("Mauvais Socket !")
-    input("Appuiyez sur une touche pour continuer...")
+    input("Appuiyer sur une touche pour continuer...")
     sys.exit()
 mySocket.listen(5)
 

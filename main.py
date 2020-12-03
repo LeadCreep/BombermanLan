@@ -54,7 +54,7 @@ def placeBots():
 
     except TypeError:
         coBot = th_R.message
-        print("Erreur d'attribu")
+        print("Erreur d'attribus")
         print(type(coBot))
 
 
