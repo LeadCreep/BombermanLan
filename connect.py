@@ -1,3 +1,4 @@
+import json
 import threading
 from tkinter import LEFT, RIGHT, TOP, Button, Entry, Label, StringVar, Tk
 
@@ -53,13 +54,12 @@ class ThreadReception(threading.Thread):
         threading.Thread.__init__(self)
         self.connexion = conn
         self.message_recu = None
+        self.message = "MessageBase"
 
     def run(self):
         while 1:
             self.message_recu = self.connexion.recv(1024)
-            #print("*" + self.message_recu.decode() + "*")
-            if self.message_recu == '' or self.message_recu.upper() == "FIN":
-                break
+            self.message = json.loads(self.message_recu)
 
         self._Thread__stop()
         print("Connection Rompue")

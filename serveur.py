@@ -1,3 +1,4 @@
+import json
 import socket
 import sys
 import threading
@@ -14,22 +15,30 @@ class ThreadClient(threading.Thread):
         threading.Thread.__init__(self)
         self.connexion = connection
         self.setName(self.connexion.recv(1024).decode())
+        self.nom = self.getName()
+        self.msgClient = self.connexion.recv(1024)
 
     def run(self):
-        nom = self.getName()
         while 1:
-            msgClient = self.connexion.recv(1024)
-            if msgClient == '' or msgClient.upper().decode() == "FIN":
-                break
-            message = nom + '>' + msgClient.decode()
-            print(message)
-            for iteration in conn_client:
-                if iteration != nom:
-                    conn_client[iteration].send(message.encode())
+            try:
+                self.msgClient = self.connexion.recv(1024).decode()
+                if self.msgClient == '' or self.msgClient.upper() == "FIN":
+                    break
+                message = json.loads(self.msgClient)
+                print(self.nom, "MsgClient : ", self.msgClient)
+                print(self.nom, "message :", message)
+                self.envoyer(self.msgClient)
+            except json.decoder.JSONDecodeError:
+                print("Packet Lost")
 
         self.connexion.close()
-        del conn_client[nom]
-        print("Client", nom, "Déconnecté")
+        del conn_client[self.nom]
+        print("Client", self.nom, "Déconnecté")
+
+    def envoyer(self, message):
+        for iteration in conn_client:
+            if iteration != self.nom:
+                conn_client[iteration].send(self.msgClient.encode())
 
 
 mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,6 +48,7 @@ try:
     mySocket.bind((ServIP, PORT))
 except socket.error:
     print("Mauvais Socket !")
+    input("Appuiyez sur une touche pour continuer...")
     sys.exit()
 mySocket.listen(5)
 
@@ -51,4 +61,5 @@ while 1:
     print(it)
     conn_client[it] = connexion
     print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
+    # Ne S'envoit pas ¯\_(ツ)_/¯
     connexion.send("Connection effectué !!".encode())
