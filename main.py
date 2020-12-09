@@ -2,6 +2,7 @@
 import json
 import socket
 import sys
+from datetime import datetime
 
 import pygame
 
@@ -30,9 +31,9 @@ connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     connexion.connect((HOST, PORT))
 except socket.error:
-    print("Connection Non Etablie")
+    print("[", str(datetime.now()), "]", "Connection Non Etablie")
     sys.quit()
-print("Connection Etablie !")
+print("[", str(datetime.now()), "]", "Connection Etablie !")
 th_E = ThreadEmission(connexion)
 th_R = ThreadReception(connexion)
 th_E.start()
@@ -47,15 +48,11 @@ def sendPlayerPos():
 
 def placeBots():
     try:
-        print(th_R.message)
         coBot = th_R.message
-        print(type(coBot))
         game.playerBot1.place(coBot[0], coBot[1])
 
     except TypeError:
         coBot = th_R.message_recu
-        print("Erreur d'attribus")
-        print(type(coBot))
 
 
 # gameloop

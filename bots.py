@@ -16,8 +16,8 @@ class Bot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def place(self, x, y):
-        self.rect.x = self.x * TILESISE
-        self.rect.y = self.y * TILESISE
+        self.rect.x = x * TILESISE
+        self.rect.y = y * TILESISE
 
     def update(self):
         self.place(self.x, self.y)

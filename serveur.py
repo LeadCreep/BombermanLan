@@ -2,12 +2,13 @@ import json
 import socket
 import sys
 import threading
+from datetime import datetime
 
 from constantes import PORT
 
 hostname = socket.gethostname()
 ServIP = socket.gethostbyname(hostname)
-print('Ip du Serveur : ', ServIP)
+print("[", str(datetime.now()), "]", 'Ip du Serveur : ', ServIP)
 
 
 class ThreadClient(threading.Thread):
@@ -28,17 +29,16 @@ class ThreadClient(threading.Thread):
                 #print(self.nom, "message :", message)
                 self.envoyer(json.dumps(message))
             except json.decoder.JSONDecodeError:
-                print("Packet Lost")
+                print("[", str(datetime.now()), "]", "Packet Lost")
 
         self.connexion.close()
         del conn_client[self.nom]
-        print("Client", self.nom, "Déconnecté")
+        print("[", str(datetime.now()), "]", "Client", self.nom, "Déconnecté")
 
     def envoyer(self, message):
         for iteration in conn_client:
             if iteration != self.nom:
                 conn_client[iteration].send(self.msgClient.encode())
-                print("Packet envoyé a ", iteration)
 
 
 mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,7 +47,7 @@ mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     mySocket.bind((ServIP, PORT))
 except socket.error:
-    print("Mauvais Socket !")
+    print("[", str(datetime.now()), "]", "Mauvais Socket !")
     input("Appuiyer sur une touche pour continuer...")
     sys.exit()
 mySocket.listen(5)
@@ -58,6 +58,6 @@ while 1:
     th = ThreadClient(connexion)
     th.start()
     it = th.getName()
-    print(it)
     conn_client[it] = connexion
-    print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
+    print("[", str(datetime.now()), "]", "Client", it,
+          "connecté, adresse IP", adresse[0], "port", adresse[1])

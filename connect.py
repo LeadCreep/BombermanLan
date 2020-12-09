@@ -1,5 +1,6 @@
 import json
 import threading
+from datetime import datetime
 from tkinter import LEFT, RIGHT, TOP, Button, Entry, Label, StringVar, Tk
 
 
@@ -10,9 +11,11 @@ class BoiteDeDialogue():
 
         def GetIP():
             self.AdresseIp = self.IP.get()
-            print(str(self.AdresseIp))
+            print("[", str(datetime.now()), "]",
+                  "Connection au serveur :", str(self.AdresseIp))
             self.nom = self.Pseudo.get()
-            print(str(self.nom))
+            print("[", str(datetime.now()), "]",
+                  "Avec le pseudo :", str(self.nom))
             self.Mafenetre.destroy()
 
         # Création de la fenêtre principale (main window)
@@ -62,10 +65,10 @@ class ThreadReception(threading.Thread):
                 self.message_recu = self.connexion.recv(1024)
                 self.message = json.loads(self.message_recu)
             except json.decoder.JSONDecodeError:
-                print("PacketLost!")
+                print("[", str(datetime.now()), "]", "PacketLost!")
 
         self._Thread__stop()
-        print("Connection Rompue")
+        print("[", str(datetime.now()), "]", "Connection Rompue")
         self.connexion.close()
 
 
@@ -83,7 +86,7 @@ class ThreadEmission(threading.Thread):
         try:
             self.connexion.send(message.encode())
         except AttributeError:
-            print("NoneType !")
+            print("[", str(datetime.now()), "]", "NoneType !")
 
 
 #y = [1, 1, True, 1, 1]
