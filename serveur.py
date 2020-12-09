@@ -17,6 +17,7 @@ class ThreadClient(threading.Thread):
         self.connexion = connection
         self.setName(self.connexion.recv(1024).decode())
         self.nom = self.getName()
+        self.msgClient = "BaseMessage"
 
     def run(self):
         while 1:
