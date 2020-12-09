@@ -58,8 +58,11 @@ class ThreadReception(threading.Thread):
 
     def run(self):
         while 1:
-            self.message_recu = self.connexion.recv(1024)
-            self.message = json.loads(self.message_recu)
+            try:
+                self.message_recu = self.connexion.recv(1024)
+                self.message = json.loads(self.message_recu)
+            except json.decoder.JSONDecodeError:
+                print("PacketLost!")
 
         self._Thread__stop()
         print("Connection Rompue")
