@@ -16,7 +16,6 @@ class ThreadClient(threading.Thread):
         self.connexion = connection
         self.setName(self.connexion.recv(1024).decode())
         self.nom = self.getName()
-        self.msgClient = self.connexion.recv(1024)
 
     def run(self):
         while 1:
@@ -25,9 +24,9 @@ class ThreadClient(threading.Thread):
                 if self.msgClient == '' or self.msgClient.upper() == "FIN":
                     break
                 message = json.loads(self.msgClient)
-                print(self.nom, "MsgClient : ", self.msgClient)
-                print(self.nom, "message :", message)
-                self.envoyer(self.msgClient)
+                #print(self.nom, "MsgClient : ", self.msgClient)
+                #print(self.nom, "message :", message)
+                self.envoyer(json.dumps(message))
             except json.decoder.JSONDecodeError:
                 print("Packet Lost")
 
@@ -39,6 +38,7 @@ class ThreadClient(threading.Thread):
         for iteration in conn_client:
             if iteration != self.nom:
                 conn_client[iteration].send(self.msgClient.encode())
+                print("Packet envoyé a ", iteration)
 
 
 mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -61,5 +61,3 @@ while 1:
     print(it)
     conn_client[it] = connexion
     print("Client", it, "connecté, adresse IP", adresse[0], "port", adresse[1])
-    # Ne S'envoit pas ¯\_(ツ)_/¯
-    connexion.send("Connection effectué !!".encode())

@@ -47,13 +47,13 @@ def sendPlayerPos():
 
 def placeBots():
     try:
-        print(th_R.message_recu)
-        coBot = th_R.message_recu
+        print(th_R.message)
+        coBot = th_R.message
         print(type(coBot))
         game.playerBot1.place(coBot[0], coBot[1])
 
     except TypeError:
-        coBot = th_R.message
+        coBot = th_R.message_recu
         print("Erreur d'attribus")
         print(type(coBot))
 
