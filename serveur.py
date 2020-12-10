@@ -15,13 +15,13 @@ class ThreadClient(threading.Thread):
     def __init__(self, connection):
         threading.Thread.__init__(self)
         self.connexion = connection
-        self.setName(self.connexion.recv(1024).decode())
+        self.setName(self.connexion.recv(16394).decode())
         self.nom = self.getName()
 
     def run(self):
         while 1:
             try:
-                self.msgClient = self.connexion.recv(1024).decode()
+                self.msgClient = self.connexion.recv(16394).decode()
                 if self.msgClient == '' or self.msgClient.upper() == "FIN":
                     break
                 message = json.loads(self.msgClient)
