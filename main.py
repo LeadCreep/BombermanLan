@@ -48,9 +48,10 @@ def placeBots():
     try:
         coBot = th_R.message
         game.playerBot1.place(coBot[1], coBot[2])
-
+        game.playerBot1.setSkin(coBot[len(coBot) - 1])
+        # OBJECTIF : Changer le skin selon le joueur !!!
     except TypeError:
-        print("TypeError")
+        pass
 
 
 # gameloop
