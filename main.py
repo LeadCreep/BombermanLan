@@ -33,7 +33,7 @@ pygame.init()
 pygame.display.set_caption("BombermanMVM")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-background = pygame.image.load("assets/background.png")
+background = pygame.image.load("assets/map.png")
 
 debugfps = 0
 
