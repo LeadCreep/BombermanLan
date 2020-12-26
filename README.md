@@ -9,4 +9,4 @@ Graphism : Morgane Herbin
 
 Game Developper : Victor Delcroix
 
-#UNFINISHED BRANCH COUND NOT LEAD ANYWHERE
+# UNFINISHED BRANCH COULD NOT LEAD ANYWHERE
