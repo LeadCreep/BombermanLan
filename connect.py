@@ -62,7 +62,7 @@ class ThreadReception(threading.Thread):
     def run(self):
         while 1:
             try:
-                self.message_recu = self.connexion.recv(1024)
+                self.message_recu = self.connexion.recv(16394)
                 self.message = json.loads(self.message_recu)
             except json.decoder.JSONDecodeError:
                 print("[", str(datetime.now()), "]", "PacketLost!")
@@ -85,7 +85,7 @@ class ThreadEmission(threading.Thread):
     def envoyer(self, message):
         try:
             self.connexion.send(message.encode())
-        except AttributeError:
+        except TypeError:
             print("[", str(datetime.now()), "]", "NoneType !")
 
 

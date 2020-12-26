@@ -10,20 +10,8 @@ from connect import BoiteDeDialogue, ThreadEmission, ThreadReception
 from constantes import PORT, SCREEN_HEIGHT, SCREEN_WIDTH
 from game import Game
 
-pygame.init()
-
-pygame.display.set_caption("BombermanMVM")
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-background = pygame.image.load("assets/background.png")
-
-debugfps = 0
-
-game = Game()
 
 # Connection au Serveur
-
-
 Boite = BoiteDeDialogue()
 Boite.runFenetre()
 HOST = Boite.AdresseIp
@@ -39,20 +27,31 @@ th_R = ThreadReception(connexion)
 th_E.start()
 th_R.start()
 th_E.envoyer(str(Boite.nom))
-# th_E.envoyer("FIN")
+
+pygame.init()
+
+pygame.display.set_caption("BombermanMVM")
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+background = pygame.image.load("assets/map.png")
+
+debugfps = 0
+
+game = Game()
 
 
 def sendPlayerPos():
-    th_E.envoyer(json.dumps([game.player.x, game.player.y]))
+    th_E.envoyer(json.dumps([str(Boite.nom), game.player.x, game.player.y]))
 
 
 def placeBots():
     try:
         coBot = th_R.message
-        game.playerBot1.place(coBot[0], coBot[1])
-
+        game.playerBot1.place(coBot[1], coBot[2])
+        game.playerBot1.setSkin(coBot[len(coBot) - 1])
+        # OBJECTIF : Changer le skin selon le joueur !!!
     except TypeError:
-        coBot = th_R.message_recu
+        pass
 
 
 # gameloop
