@@ -21,3 +21,6 @@ class Bot(pygame.sprite.Sprite):
 
     def update(self):
         self.place(self.x, self.y)
+
+    def setSkin(self, numJoueur):
+        print(numJoueur)
