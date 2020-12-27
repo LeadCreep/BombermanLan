@@ -5,6 +5,3 @@ OFFSET_WIDTH = 8
 TAILLE_DE_MAP = 15
 TILESISE = 32
 FPS = 60
-
-# Connections
-PORT = 50000

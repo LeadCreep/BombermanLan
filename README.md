@@ -13,5 +13,5 @@ Game Developper : Victor Delcroix
 # ToDo
 
 - MAX 2 PLAYER FROM NOW 27/12/2020
-- Bombe sur tous les clients
-- Morts sur tous les clients
+- Power Ups
+- Win/Loose Screen

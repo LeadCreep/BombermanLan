@@ -1,32 +1,7 @@
-#from datetime import datetime
-import json
-import socket
-import sys
-from datetime import datetime
-
 import pygame
 
-from connect import BoiteDeDialogue, ThreadEmission, ThreadReception
-from constantes import PORT, SCREEN_HEIGHT, SCREEN_WIDTH
+from constantes import SCREEN_HEIGHT, SCREEN_WIDTH
 from game import Game
-
-
-# Connection au Serveur
-Boite = BoiteDeDialogue()
-Boite.runFenetre()
-HOST = Boite.AdresseIp
-connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-try:
-    connexion.connect((HOST, PORT))
-except socket.error:
-    print("[", str(datetime.now()), "]", "Connection Non Etablie")
-    sys.quit()
-print("[", str(datetime.now()), "]", "Connection Etablie !")
-th_E = ThreadEmission(connexion)
-th_R = ThreadReception(connexion)
-th_E.start()
-th_R.start()
-th_E.envoyer(str(Boite.nom))
 
 pygame.init()
 
@@ -39,19 +14,6 @@ debugfps = 0
 
 game = Game()
 
-
-def sendPlayerPos():
-    th_E.envoyer(json.dumps([str(Boite.nom), game.player.x, game.player.y]))
-
-
-def placeBots():
-    try:
-        messageServ = th_R.message
-        game.playerBot1.place(messageServ[1], messageServ[2])
-    except TypeError:
-        pass
-
-
 # gameloop
 while 1:
     #debugfps = datetime.now()
@@ -60,10 +22,8 @@ while 1:
     game.walls_groupe.draw(screen)
     game.bombes.draw(screen)
     game.explosions.draw(screen)
-    game.bots.draw(screen)
+    game.players.draw(screen)
     pygame.display.flip()
     game.update()
-    sendPlayerPos()
-    placeBots()
     # print(th_R.message_recu)
     #print(datetime.now() - debugfps)
