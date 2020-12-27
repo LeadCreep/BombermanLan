@@ -1,6 +1,7 @@
 import pygame
 
 from constantes import TILESISE
+from bombes import Bombe
 
 
 class Player(pygame.sprite.Sprite):
@@ -17,6 +18,9 @@ class Player(pygame.sprite.Sprite):
         self.y = y
         self.game.players.add(self)
         self.deathState = False
+        self.bombe = None
+        self.bombeIsDecounting = False
+        self.explosionAppening = False
 
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
@@ -30,8 +34,16 @@ class Player(pygame.sprite.Sprite):
         for bombe in self.game.bombes:
             if bombe.x == self.x + dx and bombe.y == self.y + dy:
                 return True
+        for player in self.game.players:
+            if player.x == self.x + dx and player.y == self.y + dy:
+                return True
         return False
 
     def update(self):
         self.rect.x = self.x * TILESISE
         self.rect.y = self.y * TILESISE
+        if self.deathState:
+            self.image = self.imageliste[2]
+
+    def SetBombe(self):
+        self.bombe = Bombe(self, self.x, self.y)

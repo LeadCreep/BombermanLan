@@ -3,7 +3,6 @@ import sys
 import pygame
 from pygame.locals import K_DOWN, K_LEFT, K_RIGHT, K_UP, K_KP0, K_w, K_a, K_s, K_d, K_e
 
-from bombes import Bombe
 from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
 from levels import liste_levels
 from player import Player
@@ -23,21 +22,20 @@ class Game:
         self.generate_map()
         self.bombeIsDecounting = False
         self.explosionAppening = False
-        self.deathState = False
         self.bombe = None
 
     def update(self):  # Update méthode
         self.event()
-        self.player2.update()
-        self.player.update()
-        if self.bombeIsDecounting:
-            self.bombe.update()
-        if self.explosionAppening:
-            self.bombe.explosion.update()
+        for player in self.players:
+            player.update()
+            if player.bombeIsDecounting:
+                player.bombe.update()
+            if player.explosionAppening:
+                player.bombe.explosion.update()
         for explosion in self.explosions:
-            if self.player.rect.x == explosion.rect.x and self.player.rect.y == explosion.rect.y:
-                self.deathState = True
-                self.player.image = self.player.imageliste[2]
+            for player in self.players:
+                if player.rect.x == explosion.rect.x and player.rect.y == explosion.rect.y:
+                    player.deathState = True
 
     def check_collision(self, sprite, group):  # Check la collision
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
@@ -64,33 +62,29 @@ class Game:
             if event.type == pygame.QUIT:  # QUITER LE JEU
                 self.quit()
             if event.type == pygame.KEYDOWN:  # QUAND LE BOUTTON EST PRESS
-                if not self.deathState:
-                    if event.key == K_UP:
+                if not self.player.deathState:
+                    if event.key == K_UP:  # Bouger en Haut
                         self.player.move(dy=-1)
-                    if event.key == K_DOWN:
+                    if event.key == K_DOWN:  # Bouger en Bas
                         self.player.move(dy=1)
-                    if event.key == K_LEFT:
+                    if event.key == K_LEFT:  # Bouger a Gauche
                         self.player.move(dx=-1)
-                    if event.key == K_RIGHT:
+                    if event.key == K_RIGHT:  # Bouger a Droite
                         self.player.move(dx=1)
-                    if event.key == K_KP0:
-                        if not self.bombeIsDecounting and not self.explosionAppening:
-                            self.bombe = Bombe(
-                                self, self.player.x, self.player.y)
-                            self.bombeIsDecounting = True
-                            self.bombe.mettreEnPlaceBombe()
-                if not self.deathState:
-                    if event.key == K_w:
+                    if event.key == K_KP0:  # Générer la Bombe
+                        if not self.player.bombeIsDecounting and not self.player.explosionAppening:
+                            self.player.bombeIsDecounting = True
+                            self.player.SetBombe()
+                if not self.player2.deathState:
+                    if event.key == K_w:  # Bouger en Haut
                         self.player2.move(dy=-1)
-                    if event.key == K_s:
+                    if event.key == K_s:  # Bouger en Bas
                         self.player2.move(dy=1)
-                    if event.key == K_a:
+                    if event.key == K_a:  # Bouger a Gauche
                         self.player2.move(dx=-1)
-                    if event.key == K_d:
+                    if event.key == K_d:  # Bouger a Droite
                         self.player2.move(dx=1)
-                    if event.key == K_e:
-                        if not self.bombeIsDecounting and not self.explosionAppening:
-                            self.bombe = Bombe(
-                                self, self.player2.x, self.player2.y)
-                            self.bombeIsDecounting = True
-                            self.bombe.mettreEnPlaceBombe()
+                    if event.key == K_e:  # Générer la Bombe
+                        if not self.player2.bombeIsDecounting and not self.player2.explosionAppening:
+                            self.player2.bombeIsDecounting = True
+                            self.player2.SetBombe()
