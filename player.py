@@ -49,6 +49,7 @@ class Player(pygame.sprite.Sprite):
             self.image = self.imageliste[2]
 
     def SetBombe(self):
+        self.bombeIsDecounting = True
         self.bombe = Bombe(self, self.x, self.y)
 
 

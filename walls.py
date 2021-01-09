@@ -23,5 +23,4 @@ class Breakable_Walls(Wall):
     def isDestroyed(self):
         for explosion in self.game.explosions:
             if explosion.x == self.x and explosion.y == self.y:
-                print("Hit !")
                 self.game.Breakable.remove(self)
