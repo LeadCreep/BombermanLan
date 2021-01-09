@@ -98,8 +98,8 @@ class ExplosionPlusLoin(pygame.sprite.Sprite):
         self.y = y
         self.inWall = True
         self.mettreEnPlace()
-        for wall in self.player.game.walls_groupe:
-            if wall.x == self.x and wall.y == self.y or self.y < OFFSET_HEIGHT or self.y > OFFSET_HEIGHT+TAILLE_DE_MAP-2 or self.x < OFFSET_WIDTH or self.x > OFFSET_WIDTH+TAILLE_DE_MAP-1:
+        for thing in self.player.game.Unbreakable:
+            if thing.x == self.x and thing.y == self.y or self.y < OFFSET_HEIGHT or self.y > OFFSET_HEIGHT+TAILLE_DE_MAP-2 or self.x < OFFSET_WIDTH or self.x > OFFSET_WIDTH+TAILLE_DE_MAP-1:
                 self.inWall = True
                 break
             else:

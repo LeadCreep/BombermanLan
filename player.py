@@ -28,7 +28,10 @@ class Player(pygame.sprite.Sprite):
             self.y += dy
 
     def collide_with_walls(self, dx=0, dy=0):
-        for wall in self.game.walls_groupe:
+        for wall in self.game.Unbreakable:
+            if wall.x == self.x + dx and wall.y == self.y + dy:
+                return True
+        for wall in self.game.Breakable:
             if wall.x == self.x + dx and wall.y == self.y + dy:
                 return True
         for bombe in self.game.bombes:
@@ -47,3 +50,15 @@ class Player(pygame.sprite.Sprite):
 
     def SetBombe(self):
         self.bombe = Bombe(self, self.x, self.y)
+
+
+class SpawnPoint(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super().__init__()
+        self.game = game
+        self.image = pygame.image.load("assets/explosions/BLANK.png")
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.y = y * TILESISE
+        self.rect.x = x * TILESISE

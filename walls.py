@@ -13,3 +13,15 @@ class Wall(pygame.sprite.Sprite):
         self.rect.y = y * TILESISE
         self.rect.x = x * TILESISE
         self.game = game
+
+
+class Breakable_Walls(Wall):
+    def __init__(self, game, x, y):
+        super().__init__(game, x, y)
+        self.image = pygame.image.load("assets/player.png")
+
+    def isDestroyed(self):
+        for explosion in self.game.explosions:
+            if explosion.x == self.x and explosion.y == self.y:
+                print("Hit !")
+                self.game.Breakable.remove(self)
