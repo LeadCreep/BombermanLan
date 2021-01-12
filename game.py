@@ -77,7 +77,7 @@ class Game:
         sys.exit()
 
     def event(self):  # Events
-        for event in pygame.event.get():
+        for event in pygame.event.get():  # Pour Chaque Evenement
             if event.type == pygame.QUIT:  # Quitter le jeu
                 self.quit()
             if event.type == pygame.KEYDOWN:  # Quand un boutton est pressé

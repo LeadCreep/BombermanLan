@@ -10,8 +10,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 background = pygame.image.load("assets/map.png")
 
-debugfps = 0
-
 game = Game()
 
 # gameloop

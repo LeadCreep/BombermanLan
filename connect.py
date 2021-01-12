@@ -87,8 +87,3 @@ class ThreadEmission(threading.Thread):
             self.connexion.send(message.encode())
         except TypeError:
             print("[", str(datetime.now()), "]", "NoneType !")
-
-
-#y = [1, 1, True, 1, 1]
-#y = str(y)
-# th_E.envoyer(y)

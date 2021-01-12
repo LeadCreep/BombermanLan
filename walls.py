@@ -20,7 +20,7 @@ class Breakable_Walls(Wall):
         super().__init__(game, x, y)
         self.image = pygame.image.load("assets/player.png")
 
-    def isDestroyed(self):
+    def isDestroyed(self):  # Le Détruire si une explosion a la meme place
         for explosion in self.game.explosions:
             if explosion.x == self.x and explosion.y == self.y:
                 self.game.Breakable.remove(self)

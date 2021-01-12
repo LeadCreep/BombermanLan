@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.imageliste[0]
         self.game = game
         self.rect = self.image.get_rect()
-        self.velocity = 1
+        self.range = 2  # Porté de la bombe
         self.x = x
         self.y = y
         self.game.players.add(self)
@@ -22,11 +22,13 @@ class Player(pygame.sprite.Sprite):
         self.bombeIsDecounting = False
         self.explosionAppening = False
 
+    # Déplacer le joueur
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
             self.x += dx
             self.y += dy
 
+    # Tester la collision de la prochaine position : Retourne Vrai si la prochaine possition est la même que celle d'un mur
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.Unbreakable:
             if wall.x == self.x + dx and wall.y == self.y + dy:
@@ -53,6 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.bombe = Bombe(self, self.x, self.y)
 
 
+# Classe des points d'apparition
 class SpawnPoint(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         super().__init__()
