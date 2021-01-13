@@ -11,6 +11,7 @@ from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
 from levels import liste_levels
 from player import Player, SpawnPoint
 from walls import Breakable_Walls, Wall
+from powerup import PWLongRange, SpawnerPW
 #####IMPORTS#####
 
 
@@ -21,9 +22,11 @@ class Game:
         self.bombes = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         self.players = pygame.sprite.Group()
+        self.powerUp = pygame.sprite.Group()
         self.spawns = []
+        self.PWspawns = []
         self.generate_map()
-        self.SpawnPlayers()
+        self.spawnPlayers()
         self.player2.image = self.player2.imageliste[1]
         self.bombeIsDecounting = self.explosionAppening = False
         self.bombe = None
@@ -41,6 +44,8 @@ class Game:
                     player.deathState = True
         for thing in self.Breakable:  # Update pour les choses cassables
             thing.isDestroyed()
+        for thing in self.powerUp:
+            thing.update()
 
     def generate_map(self):  # Generer la map
         uLongeurWall = 0
@@ -58,12 +63,16 @@ class Game:
                 spawn = SpawnPoint(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.spawns.append(spawn)
+            elif i == 4:  # Spawns des PowerUps
+                PWspawn = SpawnerPW(
+                    self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
+                self.PWspawns.append(PWspawn)
             uLongeurWall += 1
             if uLongeurWall == TAILLE_DE_MAP:
                 uLongeurWall = 0
                 uHauteurWall += 1
 
-    def SpawnPlayers(self):  # Choisir 2 point de spawn parmi tout ceux de la map
+    def spawnPlayers(self):  # Choisir 2 point de spawn parmi tout ceux de la map
         spawnChoisi = random.choice(self.spawns)
         self.player = Player(self, spawnChoisi.x, spawnChoisi.y)
         self.spawns.remove(spawnChoisi)
@@ -91,7 +100,7 @@ class Game:
                     if event.key == K_d:  # Bouger a Droite
                         self.player.move(dx=1)
                     if event.key == K_e and not self.player.bombeIsDecounting and not self.player.explosionAppening:  # Générer la Bombe
-                        self.player.SetBombe()
+                        self.player.setBombe()
                 if not self.player2.deathState:  # Touches Player 2
                     if event.key == K_UP:  # Bouger en Haut
                         self.player2.move(dy=-1)
@@ -102,4 +111,4 @@ class Game:
                     if event.key == K_RIGHT:  # Bouger a Droite
                         self.player2.move(dx=1)
                     if event.key == K_KP0 and not self.player2.bombeIsDecounting and not self.player2.explosionAppening:  # Générer la Bombe
-                        self.player2.SetBombe()
+                        self.player2.setBombe()

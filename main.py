@@ -21,5 +21,6 @@ while 1:
     game.bombes.draw(screen)
     game.explosions.draw(screen)
     game.players.draw(screen)
+    game.powerUp.draw(screen)
     pygame.display.flip()
     game.update()

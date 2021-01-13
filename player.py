@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):
         if self.deathState:
             self.image = self.imageliste[2]
 
-    def SetBombe(self):
+    def setBombe(self):
         self.bombeIsDecounting = True
         self.bombe = Bombe(self, self.x, self.y)
 
