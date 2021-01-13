@@ -44,7 +44,7 @@ class Game:
                     player.deathState = True
         for thing in self.Breakable:  # Update pour les choses cassables
             thing.isDestroyed()
-        for thing in self.powerUp:
+        for thing in self.powerUp:  # Update pour les power ups
             thing.update()
 
     def generate_map(self):  # Generer la map
@@ -80,6 +80,8 @@ class Game:
         spawnChoisi = random.choice(self.spawns)
         self.player2 = Player(self, spawnChoisi.x, spawnChoisi.y)
         self.spawns.remove(spawnChoisi)
+        PWspawn = PWLongRange(self, 12, 7)
+        self.powerUp.add(PWspawn)
 
     def quit(self):  # Quitter
         pygame.quit()

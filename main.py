@@ -15,12 +15,13 @@ game = Game()
 # gameloop
 while 1:
     screen.blit(background, (0, 0))
-    screen.blit(game.player.image, game.player.rect)
+    # Dessine les objets
     game.Unbreakable.draw(screen)
     game.Breakable.draw(screen)
     game.bombes.draw(screen)
     game.explosions.draw(screen)
     game.players.draw(screen)
     game.powerUp.draw(screen)
-    pygame.display.flip()
+    # Fin Dessine les objets
+    pygame.display.flip()  # Recharger l'ecrans
     game.update()

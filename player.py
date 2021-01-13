@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
             self.x += dx
             self.y += dy
 
-    # Tester la collision de la prochaine position : Retourne Vrai si la prochaine possition est la même que celle d'un mur
+    # Tester la collision de la prochaine position : Retourne Vrai si la prochaine possition est la même que celle d'un mur/joueur/bombe
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.Unbreakable:
             if wall.x == self.x + dx and wall.y == self.y + dy:
