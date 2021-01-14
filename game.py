@@ -27,6 +27,7 @@ class Game:
         self.PWspawns = []
         self.generate_map()
         self.spawnPlayers()
+        self.spawnPowerUps()
         self.player2.image = self.player2.imageliste[1]
         self.bombeIsDecounting = self.explosionAppening = False
         self.bombe = None
@@ -80,8 +81,13 @@ class Game:
         spawnChoisi = random.choice(self.spawns)
         self.player2 = Player(self, spawnChoisi.x, spawnChoisi.y)
         self.spawns.remove(spawnChoisi)
-        PWspawn = PWLongRange(self, 12, 7)
-        self.powerUp.add(PWspawn)
+
+    def spawnPowerUps(self):  # Spawn les power ups
+        for spawn in self.PWspawns:
+            chance = random.random()
+            if chance < 0.5:
+                power = PWLongRange(self, spawn.x, spawn.y)
+                self.powerUp.add(power)
 
     def quit(self):  # Quitter
         pygame.quit()
