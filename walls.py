@@ -18,7 +18,7 @@ class Wall(pygame.sprite.Sprite):
 class Breakable_Walls(Wall):
     def __init__(self, game, x, y):
         super().__init__(game, x, y)
-        self.image = pygame.image.load("assets/player.png")
+        self.image = pygame.image.load("assets/Breakable_Wall.png")
 
     def isDestroyed(self):  # Le Détruire si une explosion a la meme place
         for explosion in self.game.explosions:
