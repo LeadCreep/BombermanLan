@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 background = pygame.image.load("assets/map.png")
 
-game = Game()
+game = Game()  # Initialise la partie
 
 # gameloop
 while 1:
