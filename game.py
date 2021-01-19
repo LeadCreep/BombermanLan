@@ -17,6 +17,7 @@ from powerup import PWLongRange, SpawnerPW
 
 class Game:
     def __init__(self):  # Démarrage du jeu
+        self.game_ended = False
         self.Unbreakable = pygame.sprite.Group()
         self.Breakable = pygame.sprite.Group()
         self.bombes = pygame.sprite.Group()
@@ -51,20 +52,20 @@ class Game:
     def generate_map(self):  # Generer la map
         uLongeurWall = 0
         uHauteurWall = 0
-        for i in liste_levels[0]:  # Scan D'objets dans le level
-            if i == 1:  # Mur
+        for object in liste_levels[0]:  # Scan D'objets dans le level
+            if object == 1:  # Mur
                 wall = Wall(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.Unbreakable.add(wall)
-            elif i == 2:  # Mur cassable
+            elif object == 2:  # Mur cassable
                 breakableWall = Breakable_Walls(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.Breakable.add(breakableWall)
-            elif i == 3:  # SpawnPoint
+            elif object == 3:  # SpawnPoint
                 spawn = SpawnPoint(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.spawns.append(spawn)
-            elif i == 4:  # Spawns des PowerUps
+            elif object == 4:  # Spawns des PowerUps
                 PWspawn = SpawnerPW(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.PWspawns.append(PWspawn)
@@ -85,13 +86,12 @@ class Game:
     def spawnPowerUps(self):  # Spawn les power ups
         for spawn in self.PWspawns:
             chance = random.random()
-            if chance < 0.5:
+            if chance < 0.65:
                 power = PWLongRange(self, spawn.x, spawn.y)
                 self.powerUp.add(power)
 
     def quit(self):  # Quitter
-        pygame.quit()
-        sys.exit()
+        self.game_ended = True
 
     def event(self):  # Events
         for event in pygame.event.get():  # Pour Chaque Evenement

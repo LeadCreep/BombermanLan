@@ -13,7 +13,7 @@ background = pygame.image.load("assets/map.png")
 game = Game()  # Initialise la partie
 
 # gameloop
-while 1:
+while not game.game_ended:
     screen.blit(background, (0, 0))
     # Dessine les objets
     game.Unbreakable.draw(screen)
