@@ -70,9 +70,9 @@ class Game:
                 PWspawn = SpawnerPW(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.PWspawns.append(PWspawn)
-            elif object == 5:
-                trou = Trou(self, OFFSET_WIDTH+uLongeurWall,
-                            OFFSET_HEIGHT+uHauteurWall)
+            elif object == 5:  # Trous
+                trou = Trou(
+                    self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.Trous.add(trou)
             uLongeurWall += 1
             if uLongeurWall == TAILLE_DE_MAP:

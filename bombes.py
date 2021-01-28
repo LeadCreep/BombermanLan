@@ -92,7 +92,7 @@ class Explosion(pygame.sprite.Sprite):
         self.ExplodeLineRight()
 
     # Creer Les Explosions sur les 2 axes
-    def ExplodeLineUp(self):
+    def ExplodeLineUp(self):  # En Haut
         for longeurup in range(self.player.range):
             self.ListeDesExplosions[0].append(ExplosionPlusLoin(
                 self.player, self.x, self.y - longeurup))
@@ -101,7 +101,7 @@ class Explosion(pygame.sprite.Sprite):
                     if explosion.x == thing.x and explosion.y == thing.y:
                         return
 
-    def ExplodeLineDown(self):
+    def ExplodeLineDown(self):  # En Bas
         for longeurdown in range(self.player.range):
             self.ListeDesExplosions[1].append(ExplosionPlusLoin(
                 self.player, self.x, self.y + longeurdown))
@@ -110,7 +110,7 @@ class Explosion(pygame.sprite.Sprite):
                     if explosion.x == thing.x and explosion.y == thing.y:
                         return
 
-    def ExplodeLineLeft(self):
+    def ExplodeLineLeft(self):  # A Gauche
         for longeurleft in range(self.player.range):
             self.ListeDesExplosions[2].append(ExplosionPlusLoin(
                 self.player, self.x-longeurleft, self.y))
@@ -119,7 +119,7 @@ class Explosion(pygame.sprite.Sprite):
                     if explosion.x == thing.x and explosion.y == thing.y:
                         return
 
-    def ExplodeLineRight(self):
+    def ExplodeLineRight(self):  # A Droite
         for longeurright in range(self.player.range):
             self.ListeDesExplosions[3].append(ExplosionPlusLoin(
                 self.player, self.x+longeurright, self.y))

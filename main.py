@@ -28,7 +28,7 @@ def gameloop():  # gameloop
         game.icones.draw(screen)
         game.Trous.draw(screen)
         # Fin Dessine les objets
-        pygame.display.flip()  # Recharger l'ecrans
+        pygame.display.flip()  # Recharger l'ecran
         game.update()
 
 
