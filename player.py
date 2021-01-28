@@ -10,10 +10,15 @@ class Player(pygame.sprite.Sprite):
         self.imageliste = [pygame.image.load(
             "assets/players/player1.png"), pygame.image.load(
             "assets/players/player2.png"), pygame.image.load("assets/players/deathState.png")]
+        counter = 0
+        for image in self.imageliste:
+            self.imageliste[counter] = pygame.transform.scale(
+                image, (64, 64))
+            counter += 1
         self.image = self.imageliste[0]
         self.game = game
         self.rect = self.image.get_rect()
-        self.range = 2  # Porté de la bombe
+        self.range = 2  # Portée de la bombe
         self.x = x
         self.y = y
         self.game.players.add(self)
@@ -42,6 +47,9 @@ class Player(pygame.sprite.Sprite):
         for player in self.game.players:
             if player.x == self.x + dx and player.y == self.y + dy:
                 return True
+        for trou in self.game.Trous:
+            if trou.x == self.x + dx and trou.y == self.y + dy:
+                return True
         return False
 
     def update(self):
@@ -66,3 +74,15 @@ class SpawnPoint(pygame.sprite.Sprite):
         self.y = y
         self.rect.y = y * TILESISE
         self.rect.x = x * TILESISE
+
+
+class Icone(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super().__init__()
+        self.game = game
+        self.imageliste = [pygame.image.load(
+            "assets/players/player1_icon.png"), pygame.image.load("assets/players/player2_icon.png")]
+        self.image = self.imageliste[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

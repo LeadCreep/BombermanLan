@@ -1,17 +1,15 @@
 #####IMPORTS#####
 import random
-import sys
 
 import pygame
-from pygame.constants import K_q, K_z
-from pygame.locals import (K_DOWN, K_KP0, K_LEFT,
-                           K_RIGHT, K_UP, K_d, K_e, K_q, K_s, K_z)
+from pygame.locals import (K_DOWN, K_KP0, K_LEFT, K_RIGHT, K_UP, K_d, K_e, K_q,
+                           K_s, K_z, K_ESCAPE)
 
 from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
 from levels import liste_levels
-from player import Player, SpawnPoint
-from walls import Breakable_Walls, Wall
-from powerup import PWLongRange, SpawnerPW
+from player import Player, SpawnPoint, Icone
+from powerup import PW2, PWLongRange, SpawnerPW
+from walls import Breakable_Walls, Trou, Wall
 #####IMPORTS#####
 
 
@@ -24,8 +22,11 @@ class Game:
         self.explosions = pygame.sprite.Group()
         self.players = pygame.sprite.Group()
         self.powerUp = pygame.sprite.Group()
+        self.icones = pygame.sprite.Group()
+        self.Trous = pygame.sprite.Group()
         self.spawns = []
         self.PWspawns = []
+        self.TypesPW = ['LongRange']
         self.generate_map()
         self.spawnPlayers()
         self.spawnPowerUps()
@@ -52,7 +53,7 @@ class Game:
     def generate_map(self):  # Generer la map
         uLongeurWall = 0
         uHauteurWall = 0
-        for object in liste_levels[0]:  # Scan D'objets dans le level
+        for object in liste_levels[2]:  # Scan D'objets dans le level
             if object == 1:  # Mur
                 wall = Wall(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
@@ -69,10 +70,21 @@ class Game:
                 PWspawn = SpawnerPW(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.PWspawns.append(PWspawn)
+            elif object == 5:
+                trou = Trou(self, OFFSET_WIDTH+uLongeurWall,
+                            OFFSET_HEIGHT+uHauteurWall)
+                self.Trous.add(trou)
             uLongeurWall += 1
             if uLongeurWall == TAILLE_DE_MAP:
                 uLongeurWall = 0
                 uHauteurWall += 1
+
+        # Générer les icones des joueurs
+        icone1 = Icone(self, 96, 100)
+        self.icones.add(icone1)
+        icone2 = Icone(self, 1569, 100)
+        icone2.image = icone2.imageliste[1]
+        self.icones.add(icone2)
 
     def spawnPlayers(self):  # Choisir 2 point de spawn parmi tout ceux de la map
         spawnChoisi = random.choice(self.spawns)
@@ -86,8 +98,13 @@ class Game:
     def spawnPowerUps(self):  # Spawn les power ups
         for spawn in self.PWspawns:
             chance = random.random()
-            if chance < 0.65:
-                power = PWLongRange(self, spawn.x, spawn.y)
+            power = None
+            if chance < 0.70:
+                powerChoisi = random.choice(self.TypesPW)
+                if powerChoisi == 'LongRange':
+                    power = PWLongRange(self, spawn.x, spawn.y)
+                elif powerChoisi == 'PW2':
+                    power = PW2(self, spawn.x, spawn.y)
                 self.powerUp.add(power)
 
     def quit(self):  # Quitter
@@ -98,6 +115,8 @@ class Game:
             if event.type == pygame.QUIT:  # Quitter le jeu
                 self.quit()
             if event.type == pygame.KEYDOWN:  # Quand un boutton est pressé
+                if event.key == K_ESCAPE:
+                    self.quit()  # Quitter le jeu
                 if not self.player.deathState:  # Touches Player 1
                     if event.key == K_z:  # Bouger en Haut
                         self.player.move(dy=-1)

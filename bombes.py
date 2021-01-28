@@ -14,6 +14,11 @@ class Bombe(pygame.sprite.Sprite):
         self.player.game.bombes.add(self)
         self.imageliste = [pygame.image.load("assets/bombes/bomb1.png"), pygame.image.load("assets/bombes/bomb2.png"), pygame.image.load(
             "assets/bombes/bomb3.png"), pygame.image.load("assets/bombes/bomb4.png"), pygame.image.load("assets/bombes/bomb5.png")]
+        counter = 0
+        for image in self.imageliste:
+            self.imageliste[counter] = pygame.transform.scale(
+                image, (64, 64))
+            counter += 1
         self.image = self.imageliste[0]
         self.rect = self.image.get_rect()
         self.timeCreated = datetime.now()
@@ -55,6 +60,7 @@ class Explosion(pygame.sprite.Sprite):
         self.player = player
         self.timeCreated = datetime.now()
         self.image = pygame.image.load("assets/explosions/EXPLOSION1.png")
+        self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -130,6 +136,11 @@ class ExplosionPlusLoin(pygame.sprite.Sprite):
         self.player = player
         self.imageliste = [pygame.image.load("assets/explosions/EXPLOSION1.png"), pygame.image.load("assets/explosions/EXPLOSION2.png"), pygame.image.load(
             "assets/explosions/EXPLOSION3.png"), pygame.image.load("assets/explosions/EXPLOSION4.png"), pygame.image.load("assets/explosions/EXPLOSION5.png"), pygame.image.load("assets/explosions/BLANK.png")]
+        counter = 0
+        for image in self.imageliste:
+            self.imageliste[counter] = pygame.transform.scale(
+                image, (64, 64))
+            counter += 1
         self.image = self.imageliste[0]
         self.rect = self.image.get_rect()
         self.player.game.explosions.add(self)

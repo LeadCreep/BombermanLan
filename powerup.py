@@ -8,6 +8,7 @@ class SpawnerPW(pygame.sprite.Sprite):
         super().__init__()
         self.game = game
         self.image = pygame.image.load("assets/explosions/BLANK.png")
+        self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -20,6 +21,7 @@ class PowerUp(pygame.sprite.Sprite):  # Class de base des power ups
         super().__init__()
         self.game = game
         self.image = pygame.image.load("assets/explosions/BLANK.png")
+        self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -31,12 +33,29 @@ class PWLongRange(PowerUp):  # Augmente la porté de la bombe
     def __init__(self, game, x, y):
         super().__init__(game, x, y)
         self.image = pygame.image.load("assets/PowerUp/LongRange.png")
+        self.image = pygame.transform.scale(self.image, (64, 64))
 
     def recup(self):
         for player in self.game.players:
             if self.x == player.x and self.y == player.y:
                 self.game.powerUp.remove(self)
                 player.range += 1
+
+    def update(self):
+        self.recup()
+
+
+class PW2(PowerUp):  # Print Yes !
+    def __init__(self, game, x, y):
+        super().__init__(game, x, y)
+        self.image = pygame.image.load("assets/PowerUp/explosion.png")
+        self.image = pygame.transform.scale(self.image, (64, 64))
+
+    def recup(self):
+        for player in self.game.players:
+            if self.x == player.x and self.y == player.y:
+                self.game.powerUp.remove(self)
+                print("Yes !")
 
     def update(self):
         self.recup()
