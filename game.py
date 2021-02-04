@@ -14,8 +14,10 @@ from walls import Breakable_Walls, Trou, Wall
 
 
 class Game:
-    def __init__(self):  # Démarrage du jeu
+    def __init__(self, level):  # Démarrage du jeu
         self.game_ended = False
+        self.level = level
+        self.background = pygame.image.load("assets/backgrounds/map.png")
         self.Unbreakable = pygame.sprite.Group()
         self.Breakable = pygame.sprite.Group()
         self.bombes = pygame.sprite.Group()
@@ -53,7 +55,7 @@ class Game:
     def generate_map(self):  # Generer la map
         uLongeurWall = 0
         uHauteurWall = 0
-        for object in liste_levels[2]:  # Scan D'objets dans le level
+        for object in liste_levels[self.level]:  # Scan D'objets dans le level
             if object == 1:  # Mur
                 wall = Wall(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
