@@ -86,50 +86,31 @@ class Explosion(pygame.sprite.Sprite):
     # Execution de la création des explosions
     def Propagation(self):
         self.ListeDesExplosions = [[], [], [], []]
-        self.ExplodeLineUp()
-        self.ExplodeLineDown()
-        self.ExplodeLineLeft()
-        self.ExplodeLineRight()
+        self.ExplodeLine()
 
-    # Creer Les Explosions sur les 2 axes
-    def ExplodeLineUp(self):  # En Haut
-        for longeurup in range(self.player.range):
-            self.ListeDesExplosions[0].append(ExplosionPlusLoin(
-                self.player, self.x, self.y - longeurup))
-            for explosion in self.ListeDesExplosions[0]:
-                for thing in self.player.game.Unbreakable:
-                    if explosion.x == thing.x and explosion.y == thing.y:
-                        return
-
-    def ExplodeLineDown(self):  # En Bas
-        for longeurdown in range(self.player.range):
-            self.ListeDesExplosions[1].append(ExplosionPlusLoin(
-                self.player, self.x, self.y + longeurdown))
-            for explosion in self.ListeDesExplosions[1]:
-                for thing in self.player.game.Unbreakable:
-                    if explosion.x == thing.x and explosion.y == thing.y:
-                        return
-
-    def ExplodeLineLeft(self):  # A Gauche
-        for longeurleft in range(self.player.range):
-            self.ListeDesExplosions[2].append(ExplosionPlusLoin(
-                self.player, self.x-longeurleft, self.y))
-            for explosion in self.ListeDesExplosions[2]:
-                for thing in self.player.game.Unbreakable:
-                    if explosion.x == thing.x and explosion.y == thing.y:
-                        return
-
-    def ExplodeLineRight(self):  # A Droite
-        for longeurright in range(self.player.range):
-            self.ListeDesExplosions[3].append(ExplosionPlusLoin(
-                self.player, self.x+longeurright, self.y))
-            for explosion in self.ListeDesExplosions[3]:
-                for thing in self.player.game.Unbreakable:
-                    if explosion.x == thing.x and explosion.y == thing.y:
-                        return
-
+    def ExplodeLine(self):
+        for i in range(4):
+            for longeur in range(self.player.range):
+                if i == 0:
+                    self.ListeDesExplosions[i].append(ExplosionPlusLoin(
+                        self.player, self.x, self.y - longeur))  # Haut
+                elif i == 1:
+                    self.ListeDesExplosions[1].append(ExplosionPlusLoin(
+                        self.player, self.x, self.y + longeur))  # Bas
+                elif i == 2:
+                    self.ListeDesExplosions[2].append(ExplosionPlusLoin(
+                        self.player, self.x - longeur, self.y))  # Gauche
+                else:
+                    self.ListeDesExplosions[3].append(ExplosionPlusLoin(
+                        self.player, self.x + longeur, self.y))  # Droite
+                for explosion in self.ListeDesExplosions[i]:
+                    for thing in self.player.game.Unbreakable:
+                        if explosion.x == thing.x and explosion.y == thing.y:
+                            return
 
 # Image de l'explosion et son annimation
+
+
 class ExplosionPlusLoin(pygame.sprite.Sprite):
     def __init__(self, player, x, y):
         super().__init__()
