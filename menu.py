@@ -1,6 +1,9 @@
-from button import BUTTON
+import sys
+
 import pygame
 from pygame.constants import K_SPACE, MOUSEBUTTONDOWN
+
+from button import BUTTON
 
 
 class Menu:
@@ -8,8 +11,8 @@ class Menu:
         self.onMenu = True
         self.background = pygame.image.load("assets/backgrounds/menu.png")
         self.buttons = pygame.sprite.Group()
-        self.bouton_start = BUTTON(self, 50, 50)
-        #self.bouton_quit = BUTTON(self, 500, 50)
+        self.bouton_start = BUTTON(self, 550, 500, 0)
+        self.bouton_quit = BUTTON(self, 550, 680, 2)
 
     def startgame(self):
         self.onMenu = False
@@ -27,5 +30,5 @@ class Menu:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.bouton_start.rect.collidepoint(pygame.mouse.get_pos()):
                     self.startgame()
-                # if self.bouton_quit.rect.collidepoint(pygame.mouse.get_pos()):
-                    # pygame.quit()
+                if self.bouton_quit.rect.collidepoint(pygame.mouse.get_pos()):
+                    sys.exit()

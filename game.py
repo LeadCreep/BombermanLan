@@ -15,6 +15,8 @@ from walls import Breakable_Walls, Trou, Wall
 
 class Game:
     def __init__(self, level):  # Démarrage du jeu
+        self.ScoreP1 = False
+        self.ScoreP2 = False
         self.game_ended = False
         self.level = level
         self.background = pygame.image.load("assets/backgrounds/map.png")
@@ -29,7 +31,7 @@ class Game:
         self.spawns = []
         self.PWspawns = []
         self.TypesPW = ['LongRange']
-        self.generate_map()
+        self.generate_map(self.level)
         self.spawnPlayers()
         self.spawnPowerUps()
         self.player2.image = self.player2.imageliste[1]
@@ -51,11 +53,17 @@ class Game:
             thing.isDestroyed()
         for thing in self.powerUp:  # Update pour les power ups
             thing.update()
+        if self.player.deathState == True:
+            self.ScoreP1 = True
+            self.quit()
+        if self.player2.deathState == True:
+            self.ScoreP2 = True
+            self.quit()
 
-    def generate_map(self):  # Generer la map
+    def generate_map(self, level):  # Generer la map
         uLongeurWall = 0
         uHauteurWall = 0
-        for object in liste_levels[self.level]:  # Scan D'objets dans le level
+        for object in liste_levels[level]:  # Scan D'objets dans le level
             if object == 1:  # Mur
                 wall = Wall(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
