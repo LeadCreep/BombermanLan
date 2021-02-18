@@ -87,3 +87,33 @@ class Icone(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
+class Lives(Icone):
+    def __init__(self, game, x, y):
+        super().__init__(game, x, y)
+        self.image = pygame.image.load("assets/heart.png")
+        self.image = pygame.transform.scale(self.image, (128, 128))
+
+
+class Score(Icone):
+    def __init__(self, game, x, y, Score):
+        super().__init__(game, x, y)
+        self.imageliste = [pygame.image.load("assets/score/compteur1.png"), pygame.image.load(
+            "assets/score/compteur2.png"), pygame.image.load("assets/score/compteur3.png"), pygame.image.load("assets/score/compteur4.png")]
+        counter = 0
+        for image in self.imageliste:
+            self.imageliste[counter] = pygame.transform.scale(
+                image, (128, 128))
+            counter += 1
+        self.image = self.imageliste[self.inverser(Score)]
+
+    def inverser(self, nombre):
+        if nombre == 3:
+            return 0
+        if nombre == 2:
+            return 1
+        if nombre == 1:
+            return 2
+        if nombre == 0:
+            return 3

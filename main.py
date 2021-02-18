@@ -30,8 +30,8 @@ def loadmenu():
         menu.update()
 
 
-def loadlevel(level):
-    game = Game(level)  # Initialise la partie
+def loadlevel(level, Score1, Score2):
+    game = Game(level, Score1, Score2)  # Initialise la partie
     background = game.background
     background = pygame.transform.scale(background, (1920, 1080))
     while not game.game_ended:
@@ -61,7 +61,7 @@ def gameloop():  # gameloop
     loadmenu()
     while ScoreP1 != 3 and ScoreP2 != 3:
         screen.fill((109, 109, 109))
-        loadlevel(random.randint(0, 2))
+        loadlevel(random.randint(0, 2), ScoreP1, ScoreP2)
 
 
 gameloop()

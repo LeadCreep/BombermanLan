@@ -1,23 +1,29 @@
 #####IMPORTS#####
 import random
+import sys
 
 import pygame
-from pygame.locals import (K_DOWN, K_KP0, K_LEFT, K_RIGHT, K_UP, K_d, K_e, K_q,
-                           K_s, K_z, K_ESCAPE)
+from pygame.constants import K_r
+from pygame.locals import (K_DOWN, K_ESCAPE, K_KP0, K_LEFT, K_RIGHT, K_UP, K_d,
+                           K_e, K_q, K_s, K_z)
 
 from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
 from levels import liste_levels
-from player import Player, SpawnPoint, Icone
+from player import Icone, Lives, Player, Score, SpawnPoint
 from powerup import PW2, PWLongRange, SpawnerPW
 from walls import Breakable_Walls, Trou, Wall
+
 #####IMPORTS#####
 
 
 class Game:
-    def __init__(self, level):  # Démarrage du jeu
+    def __init__(self, level, ScoreP1, ScoreP2):  # Démarrage du jeu
         self.ScoreP1 = False
         self.ScoreP2 = False
         self.game_ended = False
+        self.restarting = False
+        self.scorep2 = ScoreP2
+        self.scorep1 = ScoreP1
         self.level = level
         self.background = pygame.image.load("assets/backgrounds/map.png")
         self.Unbreakable = pygame.sprite.Group()
@@ -36,7 +42,6 @@ class Game:
         self.spawnPowerUps()
         self.player2.image = self.player2.imageliste[1]
         self.bombeIsDecounting = self.explosionAppening = False
-        self.bombe = None
 
     def update(self):  # Update méthode qui tourne toutes les frames
         self.event()  # Update pour les touches
@@ -96,6 +101,17 @@ class Game:
         icone2.image = icone2.imageliste[1]
         self.icones.add(icone2)
 
+        # Générer les scores
+        hearth1 = Lives(self, 96, 500)
+        self.icones.add(hearth1)
+        hearth2 = Lives(self, 1700, 500)
+        self.icones.add(hearth2)
+
+        score1 = Score(self, 227, 500, self.scorep1)
+        score2 = Score(self, 1569, 500, self.scorep2)
+        self.icones.add(score1)
+        self.icones.add(score2)
+
     def spawnPlayers(self):  # Choisir 2 point de spawn parmi tout ceux de la map
         spawnChoisi = random.choice(self.spawns)
         self.player = Player(self, spawnChoisi.x, spawnChoisi.y)
@@ -125,8 +141,10 @@ class Game:
             if event.type == pygame.QUIT:  # Quitter le jeu
                 self.quit()
             if event.type == pygame.KEYDOWN:  # Quand un boutton est pressé
-                if event.key == K_ESCAPE:
+                if event.key == K_r:
                     self.quit()  # Quitter le jeu
+                if event.key == K_ESCAPE:
+                    sys.exit()
                 if not self.player.deathState:  # Touches Player 1
                     if event.key == K_z:  # Bouger en Haut
                         self.player.move(dy=-1)
