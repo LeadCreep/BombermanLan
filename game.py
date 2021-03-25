@@ -1,6 +1,7 @@
 #####IMPORTS#####
 import random
 import sys
+import time
 
 import pygame
 from pygame.constants import K_r
