@@ -11,8 +11,8 @@ from pygame.locals import (K_DOWN, K_ESCAPE, K_KP0, K_LEFT, K_RIGHT, K_UP, K_d,
 from constantes import OFFSET_HEIGHT, OFFSET_WIDTH, TAILLE_DE_MAP
 from levels import liste_levels
 from player import Icone, Lives, Player, Score, SpawnPoint
-from powerup import PW2, PWLongRange, SpawnerPW
-from walls import Breakable_Walls, Trou, Wall
+from powerup import Fire, PWLongRange, SpawnerPW
+from walls import Breakable_Walls, Trap, Trou, Wall
 
 #####IMPORTS#####
 
@@ -27,14 +27,7 @@ class Game:
         self.scorep1 = ScoreP1
         self.level = level
         self.background = pygame.image.load("assets/backgrounds/map.png")
-        self.Unbreakable = pygame.sprite.Group()
-        self.Breakable = pygame.sprite.Group()
-        self.bombes = pygame.sprite.Group()
-        self.explosions = pygame.sprite.Group()
-        self.players = pygame.sprite.Group()
-        self.powerUp = pygame.sprite.Group()
-        self.icones = pygame.sprite.Group()
-        self.Trous = pygame.sprite.Group()
+        self.CreerLesGroupes()
         self.spawns = []
         self.PWspawns = []
         self.TypesPW = ['LongRange']
@@ -43,6 +36,17 @@ class Game:
         self.spawnPowerUps()
         self.player2.image = self.player2.imageliste[1]
         self.bombeIsDecounting = self.explosionAppening = False
+
+    def CreerLesGroupes(self):
+        self.Unbreakable = pygame.sprite.Group()
+        self.Breakable = pygame.sprite.Group()
+        self.bombes = pygame.sprite.Group()
+        self.explosions = pygame.sprite.Group()
+        self.players = pygame.sprite.Group()
+        self.powerUp = pygame.sprite.Group()
+        self.icones = pygame.sprite.Group()
+        self.Trous = pygame.sprite.Group()
+        self.Traps = pygame.sprite.Group()
 
     def update(self):  # Update méthode qui tourne toutes les frames
         self.event()  # Update pour les touches
@@ -90,6 +94,11 @@ class Game:
                 trou = Trou(
                     self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
                 self.Trous.add(trou)
+            elif object == 6:  # Trap
+                trap = Trap(
+                    self, OFFSET_WIDTH+uLongeurWall, OFFSET_HEIGHT+uHauteurWall)
+                self.Traps.add(trap)
+
             uLongeurWall += 1
             if uLongeurWall == TAILLE_DE_MAP:
                 uLongeurWall = 0
@@ -130,8 +139,8 @@ class Game:
                 powerChoisi = random.choice(self.TypesPW)
                 if powerChoisi == 'LongRange':
                     power = PWLongRange(self, spawn.x, spawn.y)
-                elif powerChoisi == 'PW2':
-                    power = PW2(self, spawn.x, spawn.y)
+                elif powerChoisi == 'Fire':
+                    power = Fire(self, spawn.x, spawn.y)
                 self.powerUp.add(power)
 
     def quit(self):  # Quitter

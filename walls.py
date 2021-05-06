@@ -32,3 +32,9 @@ class Trou(Wall):
     def __init__(self, game, x, y):
         super().__init__(game, x, y)
         self.image = pygame.image.load("assets/walls/Trou.png")
+
+
+class Trap(Wall):
+    def __init__(self, game, x, y):
+        super().__init__(game, x, y)
+        self.image = pygame.image.load("assets/walls/pic.png")

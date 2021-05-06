@@ -13,10 +13,10 @@ class ThreadClient(threading.Thread):
         self.connexion = conn
 
     def run(self):
-        nom = self.getName()
-        while 1:
+        nom = self.getName()  # Prendre le nom du client
+        while 1:  # Envoi du message
             msgClient = self.connexion.recv(1024)
-            if msgClient.upper() == "FIN" or msgClient == "":
+            if msgClient.upper() == "FIN" or msgClient == "":  # Le client
                 break
             message = str(nom + "> " + msgClient.decode())
             print(message)
@@ -24,6 +24,7 @@ class ThreadClient(threading.Thread):
                 if cle != nom:
                     conn_client[cle].send(message.encode())
 
+        # Déconnection du client
         self.connexion.close()
         del conn_client[nom]
         print("Client ", nom, " déconnecté.")

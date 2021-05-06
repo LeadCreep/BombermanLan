@@ -5,7 +5,7 @@ import threading
 import sys
 import socket
 host = '172.16.202.102'
-port = 50000
+PORT = 50000
 
 
 class ThreadReception(threading.Thread):
@@ -44,7 +44,7 @@ class ThreadEmission(threading.Thread):
 # Programme principal - Établissement de la connexion :
 connexion = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
-    connexion.connect((host, port))
+    connexion.connect((host, PORT))
 except socket.error:
     print("La connexion a échoué.")
     sys.exit()

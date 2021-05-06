@@ -58,6 +58,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.y * TILESISE
         if self.deathState:
             self.image = self.imageliste[2]
+        for trap in self.game.Traps:
+            if trap.x == self.x and trap.y == self.y:
+                self.deathState = True
 
     def setBombe(self):
         self.bombeIsDecounting = True

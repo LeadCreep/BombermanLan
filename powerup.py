@@ -45,17 +45,17 @@ class PWLongRange(PowerUp):  # Augmente la porté de la bombe
         self.recup()
 
 
-class PW2(PowerUp):  # Print Yes !
+class Fire(PowerUp):  # Print Yes !
     def __init__(self, game, x, y):
         super().__init__(game, x, y)
-        self.image = pygame.image.load("assets/PowerUp/explosion.png")
+        self.image = pygame.image.load("assets/explosions/EXPLOSION1.png")
         self.image = pygame.transform.scale(self.image, (64, 64))
 
     def recup(self):
         for player in self.game.players:
             if self.x == player.x and self.y == player.y:
                 self.game.powerUp.remove(self)
-                print("Yes !")
+                player.deathState = True
 
     def update(self):
         self.recup()
