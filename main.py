@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 import pygame
 
@@ -8,6 +9,7 @@ from game import Game
 from menu import Menu
 
 pygame.init()
+pygame.mixer.init()
 
 pygame.display.set_caption("BoomeurMan")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -62,6 +64,7 @@ def gameloop():
     while ScoreP1 != 3 and ScoreP2 != 3:
         screen.fill((109, 109, 109))
         loadlevel(random.randint(0, 2), ScoreP1, ScoreP2)
+    time.sleep(1)
 
 
 gameloop()

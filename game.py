@@ -64,9 +64,17 @@ class Game:
         for thing in self.powerUp:  # Update pour les power ups
             thing.update()
         if self.player.deathState == True:
+            pygame.mixer.stop()
+            self.boomsound = pygame.mixer.Sound(
+                'assets/sounds/death_sound.wav')
+            pygame.mixer.Sound.play(self.boomsound)
             self.ScoreP1 = True
             self.quit()
         if self.player2.deathState == True:
+            pygame.mixer.stop()
+            self.boomsound = pygame.mixer.Sound(
+                'assets/sounds/death_sound.wav')
+            pygame.mixer.Sound.play(self.boomsound)
             self.ScoreP2 = True
             self.quit()
 

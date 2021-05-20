@@ -60,6 +60,9 @@ class Explosion(pygame.sprite.Sprite):
         self.player = player
         self.timeCreated = datetime.now()
         self.image = pygame.image.load("assets/explosions/EXPLOSION1.png")
+        self.boomsound = pygame.mixer.Sound(
+            'assets/sounds/fart-with-extra-reverb.wav')
+        pygame.mixer.Sound.play(self.boomsound)
         self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect()
         self.x = x
